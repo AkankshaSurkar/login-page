@@ -1,6 +1,6 @@
-import { useState, useRef, useContext} from "react";
+import { useState, useRef, useContext } from "react";
 import AuthContext from "../Store/auth-context";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import classes from "./AuthForm.module.css";
 
@@ -8,12 +8,11 @@ const AuthForm = () => {
   const navigate = useNavigate();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-  
+
   const authCtx = useContext(AuthContext);
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -26,46 +25,45 @@ const AuthForm = () => {
 
     setIsLoading(true);
 
-
-  let url;
+    let url;
     if (isLogin) {
-      url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD5-Pax7z8KQjv-_7KOS8s0ijcCFgdJK7s'
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBRrmMSLNOspheDCpviS968wa4dmi9eyds";
     } else {
-      url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD5-Pax7z8KQjv-_7KOS8s0ijcCFgdJK7s"
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBRrmMSLNOspheDCpviS968wa4dmi9eyds";
     }
-    fetch( url,  {
-        method: "POST",
-        body: JSON.stringify({
-          email: enteredEmail,
-          password: enteredPassword,
-          returnsecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/JSON",
-        },
-      }
-    ).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return res.json().then((data) => {
-           let errorMessage = "Authentication failed";
-           alert(errorMessage);
-           throw new Error(errorMessage);
-          // console.log(data);
-        });
-      }
-    }).then(data=>{
-      authCtx.login(data.idToken);
-      navigate('/profile');
-
-
-
-  })
-
-    .catch(err=>{
-alert(err.message);
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email: enteredEmail,
+        password: enteredPassword,
+        returnsecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/JSON",
+      },
     })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            let errorMessage = "Authentication failed";
+            alert(errorMessage);
+            throw new Error(errorMessage);
+            // console.log(data);
+          });
+        }
+      })
+      .then((data) => {
+        authCtx.login(data.idToken);
+        navigate("/profile");
+      })
+
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
   return (
@@ -81,7 +79,8 @@ alert(err.message);
           <input
             type="password"
             id="password"
-            required autoComplete="username"
+            required
+            autoComplete="username"
             ref={passwordInputRef}
           />
         </div>

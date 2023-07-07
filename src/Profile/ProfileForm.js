@@ -1,6 +1,6 @@
-import { useContext, useRef,useEffect} from "react";
+import { useContext, useRef } from "react";
 import AuthContext from "../Store/auth-context";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import classes from "./ProfileForm.module.css";
 
 const ProfileForm = () => {
@@ -8,13 +8,11 @@ const ProfileForm = () => {
   const newPasswordInputRef = useRef();
   const authCtx = useContext(AuthContext);
 
-
-
   const submitHandler = (event) => {
     event.preventDefault();
-   const enteredNewPassword = newPasswordInputRef.current.value;
+    const enteredNewPassword = newPasswordInputRef.current.value;
     fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:update?key= AIzaSyD5-Pax7z8KQjv-_7KOS8s0ijcCFgdJK7s",
+      "https://identitytoolkit.googleapis.com/v1/accounts:update?key= AIzaSyBRrmMSLNOspheDCpviS968wa4dmi9eyds",
       {
         method: "POST",
         body: JSON.stringify({
@@ -28,12 +26,10 @@ const ProfileForm = () => {
       }
     ).then((res) => {
       //assumption: always succeeds!
-      navigate('/');
-
-
+      navigate("/");
     });
   };
-      
+
   return (
     <form className={classes.form} onSubmit={submitHandler}>
       <div className={classes.control}>
